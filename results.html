@@ -3,31 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kết Quả - Quản Lý Cây Trồng</title>
+  <title>Kết Quả - Đánh Giá Sức Khỏe Cây Trồng</title>
   <style>
-    /* Giữ nguyên giao diện ban đầu */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #f5f5f5; color: #333; padding: 20px; font-family: Arial, sans-serif; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
+    
     header { text-align: center; margin-bottom: 20px; }
-    header h1 { color: #006400; }
-    .banner { width: 100%; max-height: 200px; object-fit: cover; margin-top: 10px; }
-    main { max-width: 800px; margin: 20px auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    header h1 { color: #2c3e50; }
+    .banner { width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
+    
+    main { max-width: 800px; margin: 20px auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
     #results { margin-top: 20px; }
     canvas { width: 100% !important; height: auto !important; margin-top: 20px; }
-    .btn { display: inline-block; padding: 10px 15px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+    
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      background: #27ae60;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
     .btn:hover { background: #2ecc71; }
+    
     footer { text-align: center; margin-top: 20px; font-size: 0.9em; }
+    
+    @media(max-width: 600px) {
+      header h1 { font-size: 1.5em; }
+      .btn { padding: 8px 12px; font-size: 0.9em; }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <script>
-    if(!localStorage.getItem("loggedInUser")){
-      window.location.href = "login.html";
-    }
-  </script>
   <header>
-    <h1>Kết Quả Quản Lý Cây Trồng</h1>
+    <h1>Kết Quả Đánh Giá Sức Khỏe Cây Trồng</h1>
     <img src="https://via.placeholder.com/800x200.png?text=K%E1%BA%BFt+Qu%E1%BA%A3" alt="Ảnh kết quả" class="banner">
   </header>
   <main>
@@ -39,16 +51,14 @@
     </div>
   </main>
   <footer>
-    <p>&copy; 2025 Quản Lý Cây Trồng</p>
+    <p>&copy; 2025 Đánh Giá Sức Khỏe Cây Trồng</p>
   </footer>
   <script>
-    const username = localStorage.getItem("loggedInUser");
-    const key = "treeData_" + username;
-    const treeData = JSON.parse(localStorage.getItem(key));
+    const treeData = JSON.parse(localStorage.getItem('treeData'));
     const resultsDiv = document.getElementById('results');
     let healthData = [];
     
-    // Ngưỡng đánh giá (ví dụ)
+    // Ngưỡng đánh giá
     const leanThreshold = 3;
     const canopyThreshold = 5;
     
@@ -61,10 +71,10 @@
       const canopyDiff = Math.max(...canopies) - Math.min(...canopies);
       
       let warning = "";
-      let overallHealth = 100;
+      let health = 100;
       if (leanDiff > leanThreshold || canopyDiff > canopyThreshold) {
         warning = "CẢNH BÁO: Cây có nguy cơ ngã!";
-        overallHealth = Math.min(month1.health, month2.health, month3.health);
+        health = 50;
       } else {
         warning = "Cây ổn định.";
       }
@@ -73,7 +83,7 @@
       p.innerHTML = `<strong>Cây số ${treeId}:</strong> Chênh lệch độ nghiêng = ${leanDiff.toFixed(2)}, diện tích tán lá = ${canopyDiff.toFixed(2)}. ${warning}`;
       resultsDiv.appendChild(p);
       
-      healthData.push({ tree: treeId, health: overallHealth });
+      healthData.push({ tree: treeId, health });
     });
     
     const ctx = document.getElementById('healthChart').getContext('2d');
