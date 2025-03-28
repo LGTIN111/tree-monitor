@@ -1,364 +1,44 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tree Health Monitor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
-    <style>
-        :root {
-            --neon-green: #0ff47c;
-            --cyber-blue: #00f7ff;
-            --matrix-bg: #001011;
-            --terminal-text: #00ff9d;
-        }
-
-        body {
-            background: var(--matrix-bg);
-            color: var(--terminal-text);
-            font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .cyber-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            border: 2px solid var(--neon-green);
-            box-shadow: 0 0 20px rgba(15, 244, 124, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            background: rgba(0, 32, 35, 0.9);
-        }
-
-        .ai-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .hologram-title {
-            font-size: 2.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            background: linear-gradient(45deg, var(--neon-green), var(--cyber-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: hologram 2s infinite alternate;
-        }
-
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .tree-card {
-            background: rgba(0, 255, 157, 0.05);
-            border: 1px solid var(--neon-green);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: transform 0.3s;
-            position: relative;
-        }
-
-        .tree-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(15, 244, 124, 0.3);
-        }
-
-        .month-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .tab-button {
-            padding: 0.5rem 1.5rem;
-            background: transparent;
-            border: 1px solid var(--neon-green);
-            color: var(--terminal-text);
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-
-        .tab-button.active {
-            background: var(--neon-green);
-            color: var(--matrix-bg);
-        }
-
-        input {
-            width: 100%;
-            padding: 0.8rem;
-            margin: 0.5rem 0;
-            background: rgba(0, 255, 157, 0.05);
-            border: 1px solid var(--neon-green);
-            color: var(--terminal-text);
-            border-radius: 6px;
-            transition: all 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            box-shadow: 0 0 15px var(--neon-green);
-        }
-
-        .alert-pulse {
-            animation: pulse 1.5s infinite;
-        }
-
-        #healthVisualization {
-            height: 400px;
-            margin-top: 2rem;
-            border: 2px solid var(--neon-green);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        @keyframes hologram {
-            0% { text-shadow: 0 0 10px var(--neon-green); }
-            100% { text-shadow: 0 0 30px var(--cyber-blue), 0 0 10px var(--neon-green); }
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đánh Giá Sức Khỏe Cây Trồng</title>
+  <!-- Link tới CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Chart.js để vẽ biểu đồ -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="cyber-container">
-        <div class="ai-header">
-            <h1 class="hologram-title">AI TREE HEALTH MONITOR</h1>
-            <p>Hệ thống giám sát cây thông minh</p>
-        </div>
+  <header>
+    <h1>Đánh Giá Sức Khỏe Cây Trồng</h1>
+    <img src="https://via.placeholder.com/800x200.png?text=Trang+Web+Đẹp" alt="Banner đẹp" class="banner">
+  </header>
 
-        <div class="control-panel">
-            <div style="display: flex; gap: 1rem; margin-bottom: 2rem">
-                <input type="number" id="treeCount" placeholder="Số lượng cây" min="1" value="1" 
-                       style="flex:1; background: rgba(0, 255, 157, 0.1)">
-                <button class="cyber-button" onclick="generateTreeInputs()">KHỞI TẠO</button>
-                <button class="cyber-button" onclick="analyzeData()" 
-                        style="background: linear-gradient(45deg, #00f7ff, #0ff47c)">PHÂN TÍCH AI</button>
-            </div>
-            <div id="treeInputs" class="input-grid"></div>
-        </div>
+  <main>
+    <section class="input-section">
+      <h2>Nhập thông tin cây trồng</h2>
+      <form id="treeForm">
+        <label for="numTrees">Số lượng cây:</label>
+        <input type="number" id="numTrees" name="numTrees" min="1" required>
+        <button type="button" id="generateFields">Tạo trường nhập liệu</button>
+        <div id="treeInputs"></div>
+        <button type="submit">Đánh giá sức khỏe cây</button>
+      </form>
+    </section>
 
-        <div id="alertContainer" class="alert-section"></div>
-        <div id="healthVisualization"></div>
-    </div>
+    <section class="result-section">
+      <h2>Kết quả đánh giá</h2>
+      <div id="results"></div>
+      <canvas id="healthChart" width="400" height="200"></canvas>
+    </section>
+  </main>
 
-    <script>
-        let treesData = [];
-        let scene, camera, renderer;
+  <footer>
+    <p>&copy; 2025 Đánh Giá Sức Khỏe Cây Trồng</p>
+  </footer>
 
-        function generateTreeInputs() {
-            const count = parseInt(document.getElementById('treeCount').value);
-            const container = document.getElementById('treeInputs');
-            container.innerHTML = '';
-
-            for (let i = 1; i <= count; i++) {
-                const card = document.createElement('div');
-                card.className = 'tree-card';
-                card.innerHTML = `
-                    <h3 style="color: var(--neon-green)">CÂY ${i}</h3>
-                    <div class="month-tabs">
-                        ${[1, 2, 3].map(m => `
-                            <button class="tab-button ${m === 1 ? 'active' : ''}" 
-                                    onclick="switchTab(this, ${i}, ${m})">Tháng ${m}</button>
-                        `).join('')}
-                    </div>
-                    ${[1, 2, 3].map(m => `
-                        <div class="month-inputs" id="tree${i}month${m}" 
-                             style="${m !== 1 ? 'display: none' : ''}">
-                            <input type="number" placeholder="Chiều cao (m)" id="t${i}m${m}_h">
-                            <input type="number" placeholder="Độ nghiêng (°)" id="t${i}m${m}_t" min="0" max="90">
-                            <input type="number" placeholder="Diện tích tán (m²)" id="t${i}m${m}_c">
-                        </div>
-                    `).join('')}
-                `;
-                container.appendChild(card);
-            }
-        }
-
-        function switchTab(btn, treeId, month) {
-            btn.parentElement.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll(`#tree${treeId}month1, #tree${treeId}month2, #tree${treeId}month3`)
-                  .forEach(el => el.style.display = 'none');
-            document.getElementById(`tree${treeId}month${month}`).style.display = 'block';
-        }
-
-        function analyzeData() {
-            treesData = [];
-            const treeCount = parseInt(document.getElementById('treeCount').value);
-
-            for (let i = 1; i <= treeCount; i++) {
-                const tree = {
-                    id: i,
-                    months: []
-                };
-
-                for (let m = 1; m <= 3; m++) {
-                    tree.months.push({
-                        height: parseFloat(document.getElementById(`t${i}m${m}_h`).value),
-                        tilt: parseFloat(document.getElementById(`t${i}m${m}_t`).value),
-                        canopy: parseFloat(document.getElementById(`t${i}m${m}_c`).value)
-                    });
-                }
-                treesData.push(tree);
-            }
-
-            generateHealthReport();
-            init3DVisualization();
-        }
-
-        function generateHealthReport() {
-            const container = document.getElementById('alertContainer');
-            container.innerHTML = '';
-
-            treesData.forEach(tree => {
-                const analysis = {
-                    tiltChange: tree.months[2].tilt - tree.months[0].tilt,
-                    canopyChange: ((tree.months[2].canopy - tree.months[0].canopy) / tree.months[0].canopy) * 100,
-                    currentTilt: tree.months[2].tilt
-                };
-
-                const dangerLevel = calculateDangerLevel(analysis);
-                
-                const alertBox = document.createElement('div');
-                alertBox.className = `tree-alert ${dangerLevel > 70 ? 'alert-pulse' : ''}`;
-                alertBox.innerHTML = `
-                    <h3>Cây ${tree.id} - Mức độ nguy hiểm: ${dangerLevel}%</h3>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: ${dangerLevel}%; 
-                             background: ${getDangerColor(dangerLevel)}"></div>
-                    </div>
-                    <canvas id="healthChart${tree.id}" width="400" height="200"></canvas>
-                `;
-
-                if (dangerLevel > 30) {
-                    container.appendChild(alertBox);
-                    drawHealthChart(tree);
-                }
-            });
-        }
-
-        function calculateDangerLevel(analysis) {
-            let score = 0;
-            if (analysis.tiltChange > 5) score += 40;
-            if (analysis.canopyChange < -30) score += 30;
-            if (analysis.currentTilt > 15) score += 30;
-            return Math.min(score * 1.2, 100);
-        }
-
-        function drawHealthChart(tree) {
-            const ctx = document.getElementById(`healthChart${tree.id}`).getContext('2d');
-            new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['Tháng 1', 'Tháng 2', 'Tháng 3'],
-                    datasets: [{
-                        label: 'Độ nghiêng',
-                        data: tree.months.map(m => m.tilt),
-                        borderColor: '#FF0000',
-                        fill: true
-                    }, {
-                        label: 'Diện tích tán',
-                        data: tree.months.map(m => m.canopy),
-                        borderColor: '#00FF00',
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(255,255,255,0.2)' },
-                            grid: { color: 'rgba(255,255,255,0.2)' },
-                            pointLabels: { color: '#fff' }
-                        }
-                    }
-                }
-            });
-        }
-
-        function init3DVisualization() {
-            const container = document.getElementById('healthVisualization');
-            container.innerHTML = '';
-            
-            // Khởi tạo scene Three.js
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ alpha: true });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
-
-            // Thêm ánh sáng
-            const light = new THREE.PointLight(0x0ff47c, 1, 100);
-            light.position.set(10, 10, 10);
-            scene.add(light);
-
-            // Tạo cây 3D
-            treesData.forEach((tree, index) => {
-                if (calculateDangerLevel({
-                    tiltChange: tree.months[2].tilt - tree.months[0].tilt,
-                    canopyChange: ((tree.months[2].canopy - tree.months[0].canopy) / tree.months[0].canopy) * 100,
-                    currentTilt: tree.months[2].tilt
-                }) > 30) {
-                    createTreeModel(tree, index);
-                }
-            });
-
-            camera.position.z = 15;
-            animate();
-        }
-
-        function createTreeModel(tree, index) {
-            const height = tree.months[2].height;
-            const tilt = tree.months[2].tilt;
-            const canopySize = tree.months[2].canopy;
-
-            // Thân cây
-            const trunkGeometry = new THREE.CylinderGeometry(0.3, 0.5, height, 8);
-            const trunkMaterial = new THREE.MeshPhongMaterial({ color: 0x4a3728 });
-            const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
-            trunk.rotation.z = tilt * (Math.PI/180);
-            trunk.position.x = index * 3 - 3;
-
-            // Tán lá
-            const canopyGeometry = new THREE.SphereGeometry(canopySize/2, 32, 32);
-            const canopyMaterial = new THREE.MeshPhongMaterial({ 
-                color: 0x00ff88,
-                transparent: true,
-                opacity: 0.7
-            });
-            const canopy = new THREE.Mesh(canopyGeometry, canopyMaterial);
-            canopy.position.y = height/2;
-            canopy.position.x = index * 3 - 3;
-
-            scene.add(trunk);
-            scene.add(canopy);
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            renderer.render(scene, camera);
-            scene.rotation.y += 0.005;
-        }
-
-        function getDangerColor(percentage) {
-            const hue = ((100 - percentage) * 1.2).toString(10);
-            return `hsl(${hue}, 100%, 50%)`;
-        }
-
-        // Khởi tạo ban đầu
-        generateTreeInputs();
-    </script>
+  <!-- Script JS -->
+  <script src="script.js"></script>
 </body>
 </html>
