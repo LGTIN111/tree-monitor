@@ -3,30 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nhập Liệu - Quản Lý Cây Trồng</title>
+  <title>Nhập Liệu - Đánh Giá Sức Khỏe Cây Trồng</title>
   <style>
-    /* Giữ nguyên giao diện ban đầu */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: #f5f5f5; color: #333; padding: 20px; font-family: Arial, sans-serif; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
+    
     header { text-align: center; margin-bottom: 20px; }
-    header h1 { color: #006400; }
-    .banner { width: 100%; max-height: 200px; object-fit: cover; margin-top: 10px; }
-    main { max-width: 800px; margin: 20px auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    form label { display: block; margin-top: 10px; }
-    form input, form button { width: 100%; padding: 8px; margin-top: 5px; }
-    button { background: #2980b9; color: #fff; border: none; border-radius: 5px; }
+    header h1 { color: #2c3e50; }
+    .banner { width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
+    
+    main { max-width: 800px; margin: 20px auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    form { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+    label { font-weight: bold; }
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px;
+      background: #2980b9;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
     button:hover { background: #3498db; }
-    .tree-group { margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
-    .tree-group h3 { margin-bottom: 8px; color: #006400; }
+    
+    .tree-group {
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .tree-group h3 { color: #27ae60; margin-bottom: 8px; }
+    
     footer { text-align: center; margin-top: 20px; font-size: 0.9em; }
+    
+    @media(max-width: 600px) {
+      form { gap: 8px; }
+      button { padding: 8px; }
+    }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <script>
-    if(!localStorage.getItem("loggedInUser")){
-      window.location.href = "login.html";
-    }
-  </script>
   <header>
     <h1>Nhập Thông Tin Cây Trồng</h1>
     <img src="https://via.placeholder.com/800x200.png?text=Nh%E1%BA%ADp+Li%E1%BB%87u" alt="Ảnh minh họa" class="banner">
@@ -37,54 +60,54 @@
       <input type="number" id="numTrees" name="numTrees" min="1" required>
       <button type="button" id="generateFields">Tạo trường nhập liệu</button>
       <div id="treeInputs"></div>
-      <button type="submit">Lưu thông tin cây</button>
+      <button type="submit">Đánh giá sức khỏe cây</button>
     </form>
   </main>
   <footer>
-    <p>&copy; 2025 Quản Lý Cây Trồng</p>
+    <p>&copy; 2025 Đánh Giá Sức Khỏe Cây Trồng</p>
   </footer>
   <script>
+    // Tạo các trường nhập liệu cho từng cây
     document.getElementById('generateFields').addEventListener('click', function() {
       const numTrees = parseInt(document.getElementById('numTrees').value);
       const treeInputs = document.getElementById('treeInputs');
-      treeInputs.innerHTML = '';
+      treeInputs.innerHTML = ''; // Xóa dữ liệu cũ
+
       for (let i = 1; i <= numTrees; i++) {
         const group = document.createElement('div');
         group.className = 'tree-group';
         group.innerHTML = `
           <h3>Cây số ${i}</h3>
-          <label>Tháng 1 (Chiều cao, Độ nghiêng, Diện tích tán lá, Sức khỏe):</label>
-          <input type="text" name="tree${i}_m1" placeholder="Ví dụ: 10, 5, 20, 90" required>
-          <label>Tháng 2 (Chiều cao, Độ nghiêng, Diện tích tán lá, Sức khỏe):</label>
-          <input type="text" name="tree${i}_m2" placeholder="Ví dụ: 12, 6, 22, 85" required>
-          <label>Tháng 3 (Chiều cao, Độ nghiêng, Diện tích tán lá, Sức khỏe):</label>
-          <input type="text" name="tree${i}_m3" placeholder="Ví dụ: 11, 7, 21, 80" required>
+          <label>Tháng 1 (Chiều cao, Độ nghiêng, Diện tích tán lá):</label>
+          <input type="text" name="tree${i}_m1" placeholder="Ví dụ: 10, 5, 20" required>
+          <label>Tháng 2 (Chiều cao, Độ nghiêng, Diện tích tán lá):</label>
+          <input type="text" name="tree${i}_m2" placeholder="Ví dụ: 12, 6, 22" required>
+          <label>Tháng 3 (Chiều cao, Độ nghiêng, Diện tích tán lá):</label>
+          <input type="text" name="tree${i}_m3" placeholder="Ví dụ: 11, 7, 21" required>
         `;
         treeInputs.appendChild(group);
       }
     });
 
+    // Xử lý form và lưu dữ liệu vào Local Storage
     document.getElementById('treeForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const numTrees = parseInt(document.getElementById('numTrees').value);
-      let treeData = { 
-        username: localStorage.getItem("loggedInUser"),
-        numTrees, 
-        trees: [] 
-      };
+      let treeData = { numTrees, trees: [] };
+
       for (let i = 1; i <= numTrees; i++) {
         const m1 = document.querySelector(`input[name="tree${i}_m1"]`).value.split(',').map(Number);
         const m2 = document.querySelector(`input[name="tree${i}_m2"]`).value.split(',').map(Number);
         const m3 = document.querySelector(`input[name="tree${i}_m3"]`).value.split(',').map(Number);
+        
         treeData.trees.push({
           treeId: i,
-          month1: { height: m1[0], lean: m1[1], canopy: m1[2], health: m1[3] },
-          month2: { height: m2[0], lean: m2[1], canopy: m2[2], health: m2[3] },
-          month3: { height: m3[0], lean: m3[1], canopy: m3[2], health: m3[3] }
+          month1: { height: m1[0], lean: m1[1], canopy: m1[2] },
+          month2: { height: m2[0], lean: m2[1], canopy: m2[2] },
+          month3: { height: m3[0], lean: m3[1], canopy: m3[2] }
         });
       }
-      const key = "treeData_" + localStorage.getItem("loggedInUser");
-      localStorage.setItem(key, JSON.stringify(treeData));
+      localStorage.setItem('treeData', JSON.stringify(treeData));
       window.location.href = "result.html";
     });
   </script>
