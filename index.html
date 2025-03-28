@@ -1,44 +1,201 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Đánh Giá Sức Khỏe Cây Trồng</title>
-  <!-- Link tới CSS -->
-  <link rel="stylesheet" href="style.css">
-  <!-- Chart.js để vẽ biểu đồ -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi Cây Xanh - Trang chủ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin: 40px 0;
+            gap: 30px;
+        }
+        
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .hero-content h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #4ca1af;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #2c3e50;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 50px 0;
+            justify-content: center;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            flex: 1;
+            min-width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                flex-direction: column;
+            }
+            
+            .hero-content, .hero-image {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Đánh Giá Sức Khỏe Cây Trồng</h1>
-    <img src="https://via.placeholder.com/800x200.png?text=Trang+Web+Đẹp" alt="Banner đẹp" class="banner">
-  </header>
+    <header>
+        <div class="container">
+            <h1>HỆ THỐNG THEO DÕI CÂY XANH THÔNG MINH</h1>
+            <p>Ứng dụng AI để đánh giá nguy cơ đổ ngã của cây xanh</p>
+        </div>
+    </header>
 
-  <main>
-    <section class="input-section">
-      <h2>Nhập thông tin cây trồng</h2>
-      <form id="treeForm">
-        <label for="numTrees">Số lượng cây:</label>
-        <input type="number" id="numTrees" name="numTrees" min="1" required>
-        <button type="button" id="generateFields">Tạo trường nhập liệu</button>
-        <div id="treeInputs"></div>
-        <button type="submit">Đánh giá sức khỏe cây</button>
-      </form>
-    </section>
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Bảo vệ môi trường xanh với công nghệ AI</h2>
+                <p>Theo dõi sức khỏe cây xanh qua các chỉ số: chiều cao, độ nghiêng, diện tích tán lá</p>
+                <a href="input.html" class="btn">Bắt đầu nhập liệu</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1462143338528-eca9936a4d09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Cây xanh">
+            </div>
+        </section>
 
-    <section class="result-section">
-      <h2>Kết quả đánh giá</h2>
-      <div id="results"></div>
-      <canvas id="healthChart" width="400" height="200"></canvas>
-    </section>
-  </main>
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Phân tích dữ liệu</h3>
+                <p>AI phân tích dữ liệu 3 tháng để đánh giá xu hướng</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚠️</div>
+                <h3>Cảnh báo sớm</h3>
+                <p>Dự đoán nguy cơ đổ ngã với độ chính xác cao</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Đa nền tảng</h3>
+                <p>Hoạt động tốt trên cả điện thoại và máy tính</p>
+            </div>
+        </section>
+    </main>
 
-  <footer>
-    <p>&copy; 2025 Đánh Giá Sức Khỏe Cây Trồng</p>
-  </footer>
-
-  <!-- Script JS -->
-  <script src="script.js"></script>
+    <footer>
+        <div class="container">
+            <p>© 2023 Hệ thống Giám sát Cây Xanh Thông minh</p>
+        </div>
+    </footer>
 </body>
 </html>
