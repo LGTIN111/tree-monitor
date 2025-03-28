@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập - TreeGuard AI</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #4ca1af;
+        }
 
+        .auth-container {
+            max-width: 500px;
+            margin: 6rem auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .auth-form input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .auth-form button {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 1rem;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h2 style="text-align: center; margin-bottom: 2rem; color: var(--primary);">🔑 Đăng nhập hệ thống</h2>
+        <form id="loginForm">
+            <input type="email" placeholder="📧 Địa chỉ email" required>
+            <input type="password" placeholder="🔒 Mật khẩu" required>
+            <button type="submit">Đăng nhập ngay</button>
+        </form>
+        <p style="text-align: center; margin-top: 2rem; color: #666;">
+            Chưa có tài khoản? <a href="register.html" style="color: var(--secondary); text-decoration: none;">Đăng ký ngay →</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const email = this[0].value;
+            const password = this[1].value;
+            
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if(user) {
+                sessionStorage.setItem('currentUser', JSON.stringify(user));
+                if(user.treeCount === 0) {
+                    window.location.href = 'setup.html';
+                } else {
+                    window.location.href = 'input.html';
+                }
+            } else {
+                alert('Email hoặc mật khẩu không chính xác!');
+            }
+        });
+    </script>
+</body>
+</html>
