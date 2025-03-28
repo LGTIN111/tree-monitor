@@ -1,115 +1,201 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nhập Liệu - Đánh Giá Sức Khỏe Cây Trồng</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
-    
-    header { text-align: center; margin-bottom: 20px; }
-    header h1 { color: #2c3e50; }
-    .banner { width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
-    
-    main { max-width: 800px; margin: 20px auto; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-    form { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
-    label { font-weight: bold; }
-    input[type="number"], input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      padding: 10px;
-      background: #2980b9;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    button:hover { background: #3498db; }
-    
-    .tree-group {
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 4px;
-      margin-top: 10px;
-    }
-    .tree-group h3 { color: #27ae60; margin-bottom: 8px; }
-    
-    footer { text-align: center; margin-top: 20px; font-size: 0.9em; }
-    
-    @media(max-width: 600px) {
-      form { gap: 8px; }
-      button { padding: 8px; }
-    }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theo dõi Cây Xanh - Trang chủ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4ca1af);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin: 40px 0;
+            gap: 30px;
+        }
+        
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .hero-content h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #4ca1af;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: #2c3e50;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 50px 0;
+            justify-content: center;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            flex: 1;
+            min-width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                flex-direction: column;
+            }
+            
+            .hero-content, .hero-image {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Nhập Thông Tin Cây Trồng</h1>
-    <img src="https://via.placeholder.com/800x200.png?text=Nh%E1%BA%ADp+Li%E1%BB%87u" alt="Ảnh minh họa" class="banner">
-  </header>
-  <main>
-    <form id="treeForm">
-      <label for="numTrees">Số lượng cây:</label>
-      <input type="number" id="numTrees" name="numTrees" min="1" required>
-      <button type="button" id="generateFields">Tạo trường nhập liệu</button>
-      <div id="treeInputs"></div>
-      <button type="submit">Đánh giá sức khỏe cây</button>
-    </form>
-  </main>
-  <footer>
-    <p>&copy; 2025 Đánh Giá Sức Khỏe Cây Trồng</p>
-  </footer>
-  <script>
-    // Tạo các trường nhập liệu cho từng cây
-    document.getElementById('generateFields').addEventListener('click', function() {
-      const numTrees = parseInt(document.getElementById('numTrees').value);
-      const treeInputs = document.getElementById('treeInputs');
-      treeInputs.innerHTML = ''; // Xóa dữ liệu cũ
+    <header>
+        <div class="container">
+            <h1>HỆ THỐNG THEO DÕI CÂY XANH THÔNG MINH</h1>
+            <p>Ứng dụng AI để đánh giá nguy cơ đổ ngã của cây xanh</p>
+        </div>
+    </header>
 
-      for (let i = 1; i <= numTrees; i++) {
-        const group = document.createElement('div');
-        group.className = 'tree-group';
-        group.innerHTML = `
-          <h3>Cây số ${i}</h3>
-          <label>Tháng 1 (Chiều cao, Độ nghiêng, Diện tích tán lá):</label>
-          <input type="text" name="tree${i}_m1" placeholder="Ví dụ: 10, 5, 20" required>
-          <label>Tháng 2 (Chiều cao, Độ nghiêng, Diện tích tán lá):</label>
-          <input type="text" name="tree${i}_m2" placeholder="Ví dụ: 12, 6, 22" required>
-          <label>Tháng 3 (Chiều cao, Độ nghiêng, Diện tích tán lá):</label>
-          <input type="text" name="tree${i}_m3" placeholder="Ví dụ: 11, 7, 21" required>
-        `;
-        treeInputs.appendChild(group);
-      }
-    });
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Bảo vệ môi trường xanh với công nghệ AI</h2>
+                <p>Theo dõi sức khỏe cây xanh qua các chỉ số: chiều cao, độ nghiêng, diện tích tán lá</p>
+                <a href="input.html" class="btn">Bắt đầu nhập liệu</a>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1462143338528-eca9936a4d09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Cây xanh">
+            </div>
+        </section>
 
-    // Xử lý form và lưu dữ liệu vào Local Storage
-    document.getElementById('treeForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const numTrees = parseInt(document.getElementById('numTrees').value);
-      let treeData = { numTrees, trees: [] };
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Phân tích dữ liệu</h3>
+                <p>AI phân tích dữ liệu 3 tháng để đánh giá xu hướng</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚠️</div>
+                <h3>Cảnh báo sớm</h3>
+                <p>Dự đoán nguy cơ đổ ngã với độ chính xác cao</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Đa nền tảng</h3>
+                <p>Hoạt động tốt trên cả điện thoại và máy tính</p>
+            </div>
+        </section>
+    </main>
 
-      for (let i = 1; i <= numTrees; i++) {
-        const m1 = document.querySelector(`input[name="tree${i}_m1"]`).value.split(',').map(Number);
-        const m2 = document.querySelector(`input[name="tree${i}_m2"]`).value.split(',').map(Number);
-        const m3 = document.querySelector(`input[name="tree${i}_m3"]`).value.split(',').map(Number);
-        
-        treeData.trees.push({
-          treeId: i,
-          month1: { height: m1[0], lean: m1[1], canopy: m1[2] },
-          month2: { height: m2[0], lean: m2[1], canopy: m2[2] },
-          month3: { height: m3[0], lean: m3[1], canopy: m3[2] }
-        });
-      }
-      localStorage.setItem('treeData', JSON.stringify(treeData));
-      window.location.href = "result.html";
-    });
-  </script>
+    <footer>
+        <div class="container">
+            <p>© 2023 Hệ thống Giám sát Cây Xanh Thông minh</p>
+        </div>
+    </footer>
 </body>
 </html>
