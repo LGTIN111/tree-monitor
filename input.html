@@ -2,311 +2,165 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theo dõi Cây Xanh - Nhập liệu</title>
+    <title>Nhập liệu - TreeGuard AI</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Giữ nguyên phần CSS như ban đầu */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #4ca1af;
+            --light: #f8f9fa;
         }
-        
-        body {
-            background-color: #f5f7fa;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #2c3e50, #4ca1af);
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-        
-        .form-container {
+
+        .input-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
             background: white;
-            border-radius: 10px;
-            padding: 30px;
-            margin: 40px 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
-        
-        .form-group {
-            margin-bottom: 20px;
+
+        .tree-card {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            transition: transform 0.3s;
         }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border 0.3s ease;
-        }
-        
-        input:focus, select:focus {
-            border-color: #4ca1af;
-            outline: none;
-        }
-        
-        .btn {
-            display: inline-block;
-            background: #4ca1af;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .btn:hover {
-            background: #2c3e50;
+
+        .tree-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-        
-        .tree-data {
-            background: #f9f9f9;
+
+        .tree-card::before {
+            content: '🌿';
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #4ca1af;
+            transition: all 0.3s;
         }
-        
-        .tree-data h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
+
+        input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(76, 161, 175, 0.2);
         }
-        
-        .month-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .tab-btn {
-            padding: 10px 20px;
-            background: #f1f1f1;
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 1rem 2rem;
             border: none;
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
             font-weight: 600;
-        }
-        
-        .tab-btn.active {
-            background: #4ca1af;
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 50px;
-        }
-        
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            .month-tabs {
-                flex-direction: column;
-            }
-            
-            .tab-btn {
-                width: 100%;
-                margin-bottom: 5px;
-            }
+            transition: transform 0.3s;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>NHẬP THÔNG TIN CÂY XANH</h1>
-            <p>Vui lòng nhập dữ liệu theo dõi trong 3 tháng</p>
-        </div>
-    </header>
-
-    <main class="container">
-        <div class="form-container">
-            <form id="treeForm">
-                <div class="form-group">
-                    <label for="treeCount">Số lượng cây cần theo dõi:</label>
-                    <input type="number" id="treeCount" min="1" required>
-                </div>
-
-                <button type="button" class="btn" onclick="generateTreeForms()">Tạo biểu mẫu</button>
-
-                <div id="treesContainer"></div>
-
-                <button type="button" class="btn" onclick="analyzeData()" style="display: none;" id="analyzeBtn">Phân tích dữ liệu</button>
-            </form>
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>© 2023 Hệ thống Giám sát Cây Xanh Thông minh</p>
-        </div>
-    </footer>
+    <div class="input-container">
+        <h2 style="color: var(--primary); margin-bottom: 1.5rem;">📅 Tháng <span id="currentMonth">1</span></h2>
+        <div id="treeInputs"></div>
+        <button class="save-btn" onclick="saveData()">💾 Lưu dữ liệu</button>
+    </div>
 
     <script>
-        function generateTreeForms() {
-            const treeCount = parseInt(document.getElementById('treeCount').value);
-            const container = document.getElementById('treesContainer');
-            container.innerHTML = '';
-            
-            if (treeCount <= 0 || isNaN(treeCount)) {
-                alert('Vui lòng nhập số lượng cây hợp lệ');
-                return;
-            }
-            
-            for (let i = 1; i <= treeCount; i++) {
-                const treeDiv = document.createElement('div');
-                treeDiv.className = 'tree-data';
-                treeDiv.innerHTML = `
-                    <h3>Cây số ${i}</h3>
-                    <div class="month-tabs">
-                        <button type="button" class="tab-btn active" onclick="openTab(event, 'tree${i}-month1')">Tháng 1</button>
-                        <button type="button" class="tab-btn" onclick="openTab(event, 'tree${i}-month2')">Tháng 2</button>
-                        <button type="button" class="tab-btn" onclick="openTab(event, 'tree${i}-month3')">Tháng 3</button>
-                    </div>
-                    
-                    <div id="tree${i}-month1" class="tab-content active">
-                        <div class="form-group">
-                            <label for="tree${i}_height1">Chiều cao (m):</label>
-                            <input type="number" id="tree${i}_height1" step="0.01" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tree${i}_tilt1">Độ nghiêng (độ):</label>
-                            <input type="number" id="tree${i}_tilt1" step="0.1" min="0" max="90" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tree${i}_canopy1">Diện tích tán lá (m²):</label>
-                            <input type="number" id="tree${i}_canopy1" step="0.1" min="0" required>
-                        </div>
-                    </div>
-                    
-                    <div id="tree${i}-month2" class="tab-content">
-                        <div class="form-group">
-                            <label for="tree${i}_height2">Chiều cao (m):</label>
-                            <input type="number" id="tree${i}_height2" step="0.01" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tree${i}_tilt2">Độ nghiêng (độ):</label>
-                            <input type="number" id="tree${i}_tilt2" step="0.1" min="0" max="90" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tree${i}_canopy2">Diện tích tán lá (m²):</label>
-                            <input type="number" id="tree${i}_canopy2" step="0.1" min="0" required>
-                        </div>
-                    </div>
-                    
-                    <div id="tree${i}-month3" class="tab-content">
-                        <div class="form-group">
-                            <label for="tree${i}_height3">Chiều cao (m):</label>
-                            <input type="number" id="tree${i}_height3" step="0.01" min="0" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tree${i}_tilt3">Độ nghiêng (độ):</label>
-                            <input type="number" id="tree${i}_tilt3" step="0.1" min="0" max="90" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="tree${i}_canopy3">Diện tích tán lá (m²):</label>
-                            <input type="number" id="tree${i}_canopy3" step="0.1" min="0" required>
-                        </div>
+        let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+        
+        function generateInputs() {
+            let html = '';
+            for(let i = 1; i <= currentUser.treeCount; i++) {
+                html += `
+                    <div class="tree-card">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">Cây số ${i}</h3>
+                        <input type="number" step="0.01" placeholder="Chiều cao (m)" required>
+                        <input type="number" step="0.1" placeholder="Độ nghiêng (°)" required>
+                        <input type="number" step="0.1" placeholder="Diện tích tán lá (m²)" required>
                     </div>
                 `;
-                container.appendChild(treeDiv);
             }
-            
-            document.getElementById('analyzeBtn').style.display = 'block';
+            document.getElementById('treeInputs').innerHTML = html;
         }
-        
-        function openTab(evt, tabName) {
-            const tabContents = document.getElementsByClassName('tab-content');
-            for (let i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove('active');
-            }
-            
-            const tabButtons = document.getElementsByClassName('tab-btn');
-            for (let i = 0; i < tabButtons.length; i++) {
-                tabButtons[i].classList.remove('active');
-            }
-            
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-        
-        function analyzeData() {
-            const treeCount = parseInt(document.getElementById('treeCount').value);
-            const treesData = [];
-            
-            for (let i = 1; i <= treeCount; i++) {
-                const treeData = {
-                    id: i,
-                    months: []
-                };
+
+        function saveData() {
+            try {
+                const inputs = Array.from(document.querySelectorAll('.tree-card input'));
                 
-                for (let m = 1; m <= 3; m++) {
-                    treeData.months.push({
-                        height: parseFloat(document.getElementById(`tree${i}_height${m}`).value),
-                        tilt: parseFloat(document.getElementById(`tree${i}_tilt${m}`).value),
-                        canopy: parseFloat(document.getElementById(`tree${i}_canopy${m}`).value)
+                // Kiểm tra dữ liệu đầu vào
+                const isEmpty = inputs.some(input => input.value.trim() === '');
+                if (isEmpty) {
+                    alert('Vui lòng điền đầy đủ thông tin cho tất cả các cây!');
+                    return;
+                }
+
+                const treesData = [];
+                for(let i = 0; i < inputs.length; i += 3) {
+                    const values = inputs.slice(i, i + 3).map(input => {
+                        const value = parseFloat(input.value);
+                        if (isNaN(value)) throw new Error('Giá trị nhập không hợp lệ');
+                        return value;
+                    });
+
+                    treesData.push({
+                        height: values[0],
+                        tilt: values[1],
+                        canopy: values[2]
                     });
                 }
+
+                // Cập nhật dữ liệu người dùng
+                const newMonthData = {
+                    monthNumber: currentUser.months.length + 1,
+                    trees: treesData,
+                    recordedAt: new Date().toISOString()
+                };
+
+                currentUser.months.push(newMonthData);
+
+                // Cập nhật localStorage
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const userIndex = users.findIndex(u => u.email === currentUser.email);
+                if (userIndex === -1) throw new Error('Người dùng không tồn tại');
                 
-                treesData.push(treeData);
+                users[userIndex] = currentUser;
+                localStorage.setItem('users', JSON.stringify(users));
+                sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                // Hiệu ứng chuyển trang
+                document.querySelector('.save-btn').style.opacity = '0.7';
+                document.querySelector('.save-btn').innerHTML = '⏳ Đang xử lý...';
+                
+                setTimeout(() => {
+                    window.location.href = 'results.html';
+                }, 500);
+
+            } catch (error) {
+                console.error('Lỗi khi lưu dữ liệu:', error);
+                alert('Có lỗi xảy ra: ' + error.message);
+                document.querySelector('.save-btn').style.opacity = '1';
+                document.querySelector('.save-btn').innerHTML = '💾 Lưu dữ liệu';
             }
-            
-            // Lưu dữ liệu vào localStorage để trang kết quả có thể truy cập
-            localStorage.setItem('treesData', JSON.stringify(treesData));
-            
-            // Chuyển đến trang kết quả
-            window.location.href = 'results.html';
+        }
+
+        // Khởi tạo form
+        if(currentUser && currentUser.treeCount > 0) {
+            document.getElementById('currentMonth').textContent = currentUser.months.length + 1;
+            generateInputs();
+        } else {
+            window.location.href = 'setup.html';
         }
     </script>
 </body>
