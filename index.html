@@ -5,22 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trang Chủ - Quản Lý Cây Trồng</title>
   <style>
+    /* Giữ nguyên giao diện ban đầu */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
+    body { background-color: #f5f5f5; color: #333; padding: 20px; font-family: Arial, sans-serif; }
     header { text-align: center; margin-bottom: 20px; }
-    header h1 { color: #2c3e50; }
-    .banner { width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; margin-top: 10px; }
-    main { max-width: 800px; margin: 20px auto; text-align: center; padding: 0 10px; }
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #27ae60;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      margin: 10px;
-      transition: background 0.3s ease;
-    }
+    header h1 { margin-bottom: 10px; color: #006400; }
+    .banner { width: 100%; max-height: 200px; object-fit: cover; margin-top: 10px; }
+    main { max-width: 800px; margin: 20px auto; text-align: center; }
+    .btn { display: inline-block; padding: 10px 15px; background: #27ae60; color: #fff; text-decoration: none; border-radius: 5px; margin: 10px; }
     .btn:hover { background: #2ecc71; }
     footer { text-align: center; margin-top: 30px; font-size: 0.9em; }
   </style>
@@ -33,10 +25,10 @@
   </script>
   <header>
     <h1>Chào mừng, <span id="userDisplay"></span>!</h1>
-    <img src="https://via.placeholder.com/1000x300.png?text=Banner+Qu%E1%BA%A3n+L%C3%BD+C%C3%A2y+Tr%E1%BB%97ng" alt="Banner" class="banner">
+    <img src="https://via.placeholder.com/1000x200.png?text=Qu%E1%BA%A3n+L%C3%BD+C%C3%A2y+Tr%E1%BB%97ng" alt="Banner" class="banner">
   </header>
   <main>
-    <p>Dự án cho phép bạn quản lý thông tin cây trồng qua 3 tháng, nhập dữ liệu về chiều cao, độ nghiêng, diện tích tán lá và sức khỏe của từng cây. Hệ thống sẽ sử dụng "AI" (giả lập) đánh giá và đưa ra cảnh báo nếu cây có nguy cơ ngã.</p>
+    <p>Dự án cho phép bạn quản lý thông tin cây trồng qua 3 tháng: nhập dữ liệu về chiều cao, độ nghiêng, diện tích tán lá và sức khỏe của cây. Hệ thống "AI" sẽ đánh giá và đưa ra cảnh báo nếu cây có nguy cơ ngã.</p>
     <a href="input.html" class="btn">Nhập dữ liệu cây</a>
     <a href="result.html" class="btn">Xem kết quả</a>
     <a href="index.html" class="btn">Quay về trang chính</a>
